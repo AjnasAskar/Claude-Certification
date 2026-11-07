@@ -1,4 +1,4 @@
-# Difference Between Model, API, and SDK
+# 1. Difference Between Model, API, and SDK
 
 - **Model:** The AI system that processes input and generates output.
 - **API:** The interface through which an application sends requests to and receives responses from Claude.
