@@ -934,3 +934,140 @@ Also remember:
 - If a subagent fails because it lacks information known by the lead agent, the solution is a **better task brief**, not a larger model.
 
 ---
+
+# 37. Vision
+
+## Description
+
+Vision allows Claude to process images alongside text inputs.
+
+Images can be provided as URLs or as base64-encoded data, enabling Claude to understand and analyze visual content in addition to written prompts. This makes Vision a multimodal capability where information is extracted directly from images rather than text.
+
+Common use cases include reading invoices and receipts, analyzing charts, reviewing screenshots for UI issues, and extracting information from scanned documents.
+
+## How It Works
+
+1. Provide an image as a URL or base64-encoded data.
+2. Include the image and text prompt in the same request.
+3. Claude analyzes the image content.
+4. Claude combines visual understanding with the text prompt.
+5. Claude generates a response based on both sources of information.
+
+## Exam Point
+
+Look for scenarios where:
+
+- Important information exists in an image rather than text.
+- Documents need to be read from screenshots, scans, receipts, or invoices.
+- Charts, diagrams, or visual content must be analyzed.
+- A multimodal workflow is required.
+
+These are indicators of **Vision**.
+
+---
+
+# 38. Prefill
+
+## Description
+
+Prefill is a technique where you provide the beginning of Claude's response and allow the model to continue from that starting point.
+
+It is often used to guide output formatting, such as encouraging JSON generation by starting the response with `{`.
+
+Prefill helps steer the model toward a desired response structure, though support varies by model.
+
+## How It Works
+
+1. Provide the initial portion of the assistant's response.
+2. Submit the request along with the prefilled content.
+3. Claude continues generating from the supplied starting text.
+4. The completed response follows the structure implied by the prefill.
+
+## Exam Point
+
+Look for scenarios where:
+
+- The beginning of Claude's response is provided in advance.
+- Output formatting is being guided through partial responses.
+- JSON or structured output is encouraged by supplying an initial structure.
+
+These are indicators of **Prefill**.
+
+Also remember:
+
+- Prefill is a steering technique.
+- It is **not supported on newer models**, including Opus 4.6+ and Sonnet 4.6+.
+- Always verify model support before relying on prefill.
+
+---
+
+# 39. Adaptive Thinking
+
+## Description
+
+Adaptive Thinking allows Claude to decide whether reasoning is needed and how much reasoning effort should be used for a particular request.
+
+Rather than specifying a fixed reasoning budget, developers can provide an `effort` setting while Claude dynamically determines the appropriate amount of thinking required.
+
+## How It Works
+
+1. A request is submitted to Claude.
+2. Claude evaluates the complexity of the task.
+3. The model determines whether explicit reasoning is needed.
+4. Claude decides how much reasoning effort to use.
+5. A response is generated with or without visible thinking content.
+
+## Exam Point
+
+Look for scenarios where:
+
+- The model determines its own reasoning depth.
+- Reasoning is applied only when necessary.
+- An `effort` setting guides, rather than controls, the reasoning process.
+- Thinking blocks may or may not appear in responses.
+
+These are indicators of **Adaptive Thinking**.
+
+Also remember:
+
+- A response may contain **no thinking block at all**.
+- Applications should never assume a thinking block is always present.
+- Code should gracefully handle both cases.
+
+---
+
+# 40. Extended Thinking
+
+## Description
+
+Extended Thinking allows developers to allocate a fixed reasoning budget using `budget_tokens`.
+
+Claude can use up to the specified token budget for reasoning before producing an answer, enabling deeper analysis for complex tasks.
+
+Unlike Adaptive Thinking, the reasoning budget is explicitly controlled by the developer.
+
+## How It Works
+
+1. A reasoning budget is defined using `budget_tokens`.
+2. Claude uses the allocated budget for internal reasoning.
+3. The model performs deeper analysis before answering.
+4. Claude generates the final response after completing its reasoning process.
+
+## Exam Point
+
+Look for scenarios where:
+
+- A fixed reasoning budget is configured.
+- `budget_tokens` is explicitly specified.
+- Deep reasoning is required for complex tasks.
+- Token allocation is controlled by the developer.
+
+These are indicators of **Extended Thinking**.
+
+Also remember:
+
+- Extended Thinking requires a minimum budget of **1,024 tokens**.
+- For very large budgets (**greater than 32K tokens**), the recommended approach is the **Batch API**.
+- Batch processing helps avoid timeouts that can occur in long-running single requests.
+
+---
