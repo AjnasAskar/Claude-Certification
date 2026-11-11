@@ -54,6 +54,10 @@ Example content block types:
 - Tool use
 - Tool result
 
+#### `/compact`
+
+Claude Code's built-in compaction that preserves key facts
+
 #### `pause_turn`
 
 Used during long-running tool operations.
