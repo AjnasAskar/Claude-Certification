@@ -1071,3 +1071,101 @@ Also remember:
 - Batch processing helps avoid timeouts that can occur in long-running single requests.
 
 ---
+
+# 41. budget_tokens
+
+## Description
+
+`budget_tokens` is a setting used in **Extended Thinking** that limits how many tokens Claude can use for private reasoning before generating a final answer.
+
+It acts as a maximum allowance for reasoning, enabling deeper analysis for complex tasks while controlling resource usage and cost.
+
+## How It Works
+
+1. A `budget_tokens` value is specified in the request.
+2. Claude uses the allocated budget for internal reasoning.
+3. The value acts as a ceiling, not a required target.
+4. Claude may use fewer tokens if the task is simple.
+5. After reasoning is complete, Claude generates the final response.
+
+### Rules
+
+- `budget_tokens` is a **maximum limit**, not a guaranteed amount.
+- The minimum allowed value is **1,024 tokens**.
+- Values below **1,024** are rejected.
+- `budget_tokens` must be **less than `max_tokens`**.
+- Reasoning tokens and answer tokens must both fit within the response limit.
+- Thinking tokens are billed as **output tokens**, which can increase costs.
+
+## Exam Point
+
+Remember these key facts:
+
+- Minimum `budget_tokens` value: **1,024**
+- `budget_tokens` must be **lower than `max_tokens`**
+- For budgets larger than **32K tokens**, the **Batch API** is recommended
+
+Look for scenarios where:
+
+- A fixed reasoning budget is configured.
+- Deep reasoning is required before generating an answer.
+- Cost and reasoning-token limits are being discussed.
+- Long-running requests risk timing out due to large reasoning budgets.
+
+These are indicators of **Extended Thinking with `budget_tokens`**.
+
+Also remember:
+
+- `budget_tokens` is a **ceiling, not a target**.
+- Thinking tokens contribute to output-token billing.
+- If a very large reasoning budget causes timeouts, the recommended solution is the **Batch API**.
+
+---
+
+# 42. SSE (Server-Sent Events) Streaming
+
+## Description
+
+SSE (Server-Sent Events) Streaming allows Claude to send responses incrementally in small, labeled chunks as they are generated, rather than waiting until the entire response is complete.
+
+It uses a single open HTTP connection through which the server continuously sends events to the client. This enables applications to display output immediately, improving responsiveness and user experience during long responses.
+
+Streaming affects **when** data is received, not **what** data is returned.
+
+## How It Works
+
+1. The client opens a connection to the server.
+2. Claude begins generating a response.
+3. The response is sent as a sequence of labeled SSE events.
+4. The client receives and processes events in order.
+5. Individual chunks are assembled into the complete response.
+6. The stream ends when Claude finishes generating output.
+
+### Important Rule
+
+When streaming tool calls, tool arguments may arrive in multiple chunks.
+
+- Collect all argument fragments first.
+- Assemble the complete argument payload.
+- Parse the arguments only after all chunks have been received.
+
+## Exam Point
+
+Look for scenarios involving:
+
+- Real-time response display
+- Incremental output generation
+- Long responses that should appear as they are generated
+- Event-based response delivery over a single HTTP connection
+- Streaming tool-call arguments
+
+These are indicators of **SSE Streaming**.
+
+Also remember:
+
+- Streaming changes **when** a response is received, not **what** it contains.
+- Streaming does **not** change model behavior or response cost.
+- Tool-call arguments must be fully accumulated before parsing.
+- If a UI freezes while waiting for a long response, **streaming** is the recommended solution.
+
+---

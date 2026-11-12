@@ -145,6 +145,19 @@ stop_details = explanation of what was refused and why
 
 ---
 
+## Streaming Events
+
+| Event | Meaning |
+|--------|---------|
+| `message_start` | A new reply has begun; carries initial metadata |
+| `content_block_start` | A new block starts (text, tool_use, or thinking) |
+| `content_block_delta` | The next small piece: text, or partial tool input |
+| `content_block_stop` | That block is complete |
+| `message_delta` | Final stop reason and output token usage |
+| `message_stop` | The reply is finished |
+
+---
+
 # Quick Exam Cheat Sheet
 
 | Term | Meaning |
