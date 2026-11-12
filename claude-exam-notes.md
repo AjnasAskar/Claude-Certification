@@ -245,20 +245,50 @@ Focuses on:
 
 ---
 
-# 13. When Is Few-Shot Prompting Useful?
+# 13. Zero-Shot, One-Shot, and Few-Shot Prompting
 
-Few-shot prompting is useful when examples communicate the desired behavior more clearly than instructions alone.
+These approaches differ in how many examples are included in the prompt.
 
-It helps reduce ambiguity and improve correctness.
+## Zero-Shot: No Examples
 
-## Common Uses
+You give the instruction and nothing else. Claude relies on what it already knows.
 
-- Classification
-- Data extraction
-- Formatting
-- Tone and style
-- Handling ambiguous cases
-- Demonstrating edge cases
+```text
+Classify this support message as refund, delivery, or complaint:
+"My parcel is three days late."
+```
+
+**Best for:** Simple, common tasks Claude already handles well, such as translation, summarising, or basic classification.
+
+## One-Shot: One Example
+
+You show a single example of the input and desired output, then provide the new input.
+
+```text
+Message: "Where is my order?" → Label: delivery
+Message: "My parcel is three days late." → Label:
+```
+
+**Best for:** Tasks where the format or style matters and one clear demonstration is enough to convey it.
+
+## Few-Shot: Several Examples
+
+You show two to five examples, ideally varied, so Claude learns the pattern rather than copying one example's details.
+
+```text
+Message: "I want my money back for a broken kettle." → refund
+Message: "Where is my order?" → delivery
+Message: "The blender stopped working after a week." → complaint
+Message: "Is this jacket available in medium?" → product_question
+
+Message: "My parcel is three days late." →
+```
+
+**Best for:** Tasks with unusual categories, a specific output format, or edge cases the model might otherwise get wrong. Few-shot examples can also teach tone, such as how a support team phrases apologies.
+
+## Exam Point
+
+Zero-shot relies on the model's general knowledge, one-shot adds a single demonstration, and few-shot adds several varied examples. If Claude keeps getting the format or label wrong, the usual fix is to add examples. If the task is simple and common, zero-shot is the cheaper, correct choice.
 
 ---
 
